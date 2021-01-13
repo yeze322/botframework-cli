@@ -61,7 +61,7 @@
     "@microsoft/bf-qnamaker": "1.0.0",
     "@microsoft/bf-cli-plugins": "1.0.0",
     "@microsoft/bf-lg-cli": "1.0.0",
-    "@microsoft/bf-dialog": "1.0.0",
+    "@microsoft/bf-dialog": "file:../dialog",
     "@oclif/command": "~1.5.19",
     "@oclif/config": "~1.13.3",
     "@oclif/errors": "~1.2.2",

@@ -12,6 +12,7 @@ import * as xp from 'xml2js'
 import Ajv = require('ajv');
 import parser from '@apidevtools/json-schema-ref-parser'
 import {JsonPointer as ptr} from 'json-ptr'
+import { uischemadef } from './mockSchema';
 
 const allof = require('json-schema-merge-allof')
 const clone = require('clone')
@@ -41,6 +42,9 @@ function pathName(path: string | undefined, extension: string): string {
 
 // Get JSON from a URI.
 async function getJSON(uri: string): Promise<any> {
+    if (uri === "https://schemas.botframework.com/schemas/ui/v1.0/ui.schema") {
+        return uischemadef;
+    }
     const stream = await getUri(uri)
     let data = ''
     for await (const chunk of stream) {

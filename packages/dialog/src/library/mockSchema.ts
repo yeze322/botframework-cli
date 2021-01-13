@@ -1,0 +1,257 @@
+export const uischemadef = {
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "$id": "https://schemas.botframework.com/schemas/ui/v1.0/ui.schema",
+  "$ref": "#/definitions/UISchema",
+  "definitions": {
+      "UISchema": {
+          "title": "UI Schema",
+          "description": "Visual customization options for BotFramework SDK components.",
+          "type": "object",
+          "properties": {
+              "form": {
+                  "title": "Form UI Options",
+                  "description": "UI Options object describing form UI customizations for this $kind.",
+                  "$ref": "#/definitions/FormUIOptions"
+              },
+              "menu": {
+                  "title": "Menu Options",
+                  "description": "Configure how this component appears in the menu. Can be a menu option object or an array of menu option objects.",
+                  "$ref": "#/definitions/MenuOptions"
+              },
+              "flow": {
+                  "title": "Flow UI Options",
+                  "description": "UI Options object describing flow UI customizations for this $kind.",
+                  "$ref": "#/definitions/FlowUIOptions"
+              }
+          },
+          "additionalProperties": {
+              "title": "Component $kind",
+              "description": "UI Schema for this component.",
+              "$ref": "#/definitions/UISchema"
+          },
+          "patternProperties": {
+              "^\\$.*$": {}
+          }
+      },
+      "FormUIOptions": {
+          "type": "object",
+          "properties": {
+              "description": {
+                  "title": "Description",
+                  "description": "Description override. Used in tooltips.",
+                  "type": "string"
+              },
+              "helpLink": {
+                  "title": "Help Link",
+                  "description": "URI to component or property documentation. Used in tooltips.",
+                  "type": "string",
+                  "format": "uri"
+              },
+              "hidden": {
+                  "title": "Hidden Properties",
+                  "description": "An array of property names to hide in the UI.",
+                  "type": "array",
+                  "items": {
+                      "type": "string"
+                  }
+              },
+              "fieldsets": {
+                  "title": "Field Sets",
+                  "description": "An array of field sets.",
+                  "type": "array",
+                  "items": {
+                      "title": "Field set",
+                      "description": "Groups fields into collapsible sections in the UI.",
+                      "type": "object",
+                      "properties": {
+                          "title": {
+                              "title": "Title",
+                              "description": "Field set title.",
+                              "type": "string"
+                          },
+                          "fields": {
+                              "title": "Fields",
+                              "description": "Array of property names.",
+                              "type": "array",
+                              "items": {
+                                  "oneOf": [
+                                      {
+                                          "type": "string"
+                                      },
+                                      {
+                                          "type": "object",
+                                          "properties": {
+                                              "title": {
+                                                  "title": "Title",
+                                                  "description": "Field set title.",
+                                                  "type": "string"
+                                              },
+                                              "fields": {
+                                                  "title": "Fields",
+                                                  "description": "Array of property names.",
+                                                  "type": "array",
+                                                  "items": {
+                                                      "type": "string"
+                                                  }
+                                              },
+                                              "defaultExpanded": {
+                                                  "title": "Default expanded",
+                                                  "description": "Default expanded state for the field set.",
+                                                  "type": "boolean",
+                                                  "default": false
+                                              }
+                                          }
+                                      }
+                                  ]
+                              }
+                          },
+                          "defaultExpanded": {
+                              "title": "Default expanded",
+                              "description": "Default expanded state for the field set.",
+                              "type": "boolean",
+                              "default": false
+                          }
+                      }
+                  }
+              },
+              "intellisenseScopes": {
+                  "title": "Intellisense scopes",
+                  "description": "An array of valid scopes to help Intellisense return the correct type of results.",
+                  "type": "array",
+                  "items": {
+                      "type": "string"
+                  },
+                  "examples": [["expressions","user-variables"]]
+              },
+              "label": {
+                  "title": "Label",
+                  "description": "Label override. Can either be a string or false to hide the label.",
+                  "oneOf": [
+                      {
+                          "type": "string"
+                      },
+                      {
+                          "const": false
+                      }
+                  ]
+              },
+              "order": {
+                  "title": "Property Order",
+                  "description": "Set the order of fields. Use \"*\" for all other fields. ex. [\"foo\", \"*\", \"bar\"]",
+                  "type": "array",
+                  "items": {
+                      "type": "string"
+                  },
+                  "examples": [["*"]]
+              },
+              "pivotFieldsets": {
+                  "title": "Pivot Field Sets",
+                  "description": "If 'pivotFieldsets' is set to true, the field sets render in a tabbed view.",
+                  "type": "boolean"
+              },
+              "placeholder": {
+                  "title": "Placeholder",
+                  "description": "Placeholder override. Default is `examples` property in the schema.",
+                  "type": "string"
+              },
+              "properties": {
+                  "title": "Properties",
+                  "description": "A map of component property names to UI options with customizations for each property.",
+                  "type": "object",
+                  "additionalProperties": {
+                      "title": "Property Name",
+                      "description": "UI Options object describing UI customizations for this property.",
+                      "$ref": "#/definitions/FormUIOptions"
+                  }
+              },
+              "subtitle": {
+                  "title": "Subtitle",
+                  "description": "Subtitle rendered in form title, defaults to schema.$kind",
+                  "type": "string"
+              },
+              "widget": {
+                  "title": "Field Widget",
+                  "description": "Override default field widget.",
+                  "type": "string",
+                  "enum": [
+                      "checkbox",
+                      "date",
+                      "datetime",
+                      "input",
+                      "number",
+                      "radio",
+                      "select",
+                      "textarea"
+                  ]
+              }
+          },
+          "additionalProperties": false
+      },
+      "FlowUIOptions": {
+          "type": "object",
+          "properties": {
+              "widget": {
+                  "title": "Flow Widget Name",
+                  "description": "Flow widget name of current $kind.",
+                  "type": "string",
+                  "examples": [
+                      "ActionHeader",
+                      "ActionCard",
+                      "IfConditionWidget",
+                      "SwitchConditionWidget",
+                      "ForeachWidget"
+                  ]
+              }
+          },
+          "additionalProperties": true
+      },
+      "MenuOptions": {
+          "oneOf": [
+              {
+                  "$ref": "#/definitions/SubmenuGroup"
+              },
+              {
+                  "type": "array",
+                  "items": {
+                      "$ref": "#/definitions/SubmenuGroup"
+                  }
+              }
+          ]
+      },
+      "SubmenuGroup": {
+          "type": "object",
+          "properties": {
+              "label": {
+                  "title": "Menu Item Label (Optional) ",
+                  "description": "Text that appears as the menu item. Defaults to $kind.",
+                  "type": "string"
+              },
+              "group": {
+                  "title": "Menu Group (Optional) ",
+                  "description": "Menu group that this component belongs to. Leave blank to be ungrouped.",
+                  "type": "string",
+                  "examples": ["Dialog actions", "Dev tools"]
+              },
+              "submenu": {
+                  "title": "Submenu (Optional)",
+                  "description": "An array of submenu labels to configure how this component is nested in the menu. Set to false to show this component as a top-level menu item.",
+                  "oneOf": [
+                      {
+                          "type": "array",
+                          "items": {
+                              "title": "Submenu label",
+                              "type": "string"
+                          },
+                          "examples": [["Top Level Menu", "Secondary Menu"]]
+                      },
+                      {
+                          "const": false,
+                          "description": "Do not put menu item in a submenu."
+                      }
+                  ]
+              }
+          },
+          "additionalProperties": false
+      }
+  }
+}
